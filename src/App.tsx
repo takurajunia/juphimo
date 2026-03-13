@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ServiceCategoryPageModern from './pages/ServiceCategoryPage';
 
 // --- Navbar Component ---
 function Navbar() {
@@ -221,7 +222,7 @@ function AboutSection() {
   );
 }
 
-// --- Service Category Page Component ---
+// --- Service Category Page Component (Legacy fallback) ---
 const categoryData: Record<string, { desc: string, features: string[] }> = {
   'Blue-Collar': {
     desc: "Skip the lengthy hiring process and get reliable, pre-screened blue-collar talent delivered to your worksite faster, saving you time and money while ensuring the job gets done right.",
@@ -241,7 +242,7 @@ const categoryData: Record<string, { desc: string, features: string[] }> = {
   }
 };
 
-function ServiceCategoryPage({ category }: { category: string }) {
+function ServiceCategoryPageLegacy({ category }: { category: string }) {
   const data = categoryData[category];
 
   if (!data) return <div className="category-page"><h2>Category Not Found</h2></div>;
@@ -264,13 +265,13 @@ function ServiceCategoryPage({ category }: { category: string }) {
       `}</style>
       <div className="category-page">
         <h2>{category} Services</h2>
-        
+
         <div className="services__container">
           <div className="services__card">
             <div className="card-content">
               <h3>{category} Jobs</h3>
               <p id="small-desc">{data.desc}</p>
-              
+
               <div className="card-features">
                 <p>Available Roles:</p>
                 <ul>
@@ -481,13 +482,13 @@ export default function App() {
       case '#contact':
         return <ContactPage />;
       case '#white-collar':
-        return <ServiceCategoryPage category="White-Collar" />;
+        return <ServiceCategoryPageModern category="White-Collar" />;
       case '#blue-collar':
-        return <ServiceCategoryPage category="Blue-Collar" />;
+        return <ServiceCategoryPageLegacy category="Blue-Collar" />;
       case '#domestic':
-        return <ServiceCategoryPage category="Domestic" />;
+        return <ServiceCategoryPageLegacy category="Domestic" />;
       case '#remote':
-        return <ServiceCategoryPage category="Remote" />;
+        return <ServiceCategoryPageLegacy category="Remote" />;
       case '#home':
       default:
         return <HomePage />;
