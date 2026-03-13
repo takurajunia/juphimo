@@ -1,0 +1,30 @@
+/* Global Variables */
+:root {
+    --darkblack: #0b0c0b;
+    --blue: #007bff;
+    --white: #fff;
+    --lightgreen: #b8900ccc;
+    --lightbluey: #11beb6cc;
+    --lightlemon: #090446cc;
+    /* Added based on your existing CSS usage */
+    --darkgreen: #0b0c0b; /* Fallback for missing variable */
+}
+
+/* Global Resets */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background-color: var(--darkblack);
+    color: var(--white);
+    overflow-x: hidden;
+}
+
+/* Base link styles */
+a {
+    text-decoration: none;
+}
