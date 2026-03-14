@@ -25,10 +25,10 @@ export default function Footer() {
           <div className="footer-col">
             <h3 className="footer-title">Our Services</h3>
             <ul className="footer-links">
-              <li><a href="#domestic"><i className="fa-solid fa-chevron-right"></i> Child minders</a></li>
-              <li><a href="#domestic"><i className="fa-solid fa-chevron-right"></i> Care givers</a></li>
-              <li><a href="#blue-collar"><i className="fa-solid fa-chevron-right"></i> Gardeners</a></li>
-              <li><a href="#white-collar"><i className="fa-solid fa-chevron-right"></i> Shop assistant</a></li>
+              <li><a href="#domestic"><i className="fa-solid fa-chevron-right"></i> Domestic Services</a></li>
+              <li><a href="#remote"><i className="fa-solid fa-chevron-right"></i> Remote Services</a></li>
+              <li><a href="#white-collar"><i className="fa-solid fa-chevron-right"></i> Corporate Services</a></li>
+              <li><a href="#blue-collar"><i className="fa-solid fa-chevron-right"></i> Trade Services</a></li>
             </ul>
           </div>
 

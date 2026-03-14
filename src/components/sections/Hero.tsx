@@ -1,26 +1,30 @@
+import '../../styles/components.css';
+
 export default function Hero() {
   return (
-    <>
-      <style>{`
-        /* Hero image container – makes the image full width */
-        .hero-image-container {
-            width: 100%;
-            line-height: 0; /* removes extra space below image */
-        }
-        
-        .hero-image {
-            width: 100%;
-            height: auto;    /* maintains aspect ratio */
-            display: block;  /* removes inline gap */
-        }
-      `}</style>
-      <div className="hero-image-container">
-        <img 
-          src="/images/bholato.jpeg" 
-          alt="Juphimo Consultancy Staff" 
-          className="hero-image" 
-        />
+    <section className="hero-image-container">
+      <img
+        src="/images/bholato.jpeg"
+        alt="Juphimo Consultancy staffing team"
+        className="hero-image"
+      />
+
+      <div className="hero-overlay">
+        <p className="hero-kicker">Staffing Across Zimbabwe</p>
+        <h1>One partner for domestic, corporate, trade, and remote talent.</h1>
+        <p className="hero-summary">
+          From family support and hospitality to blue-collar projects and office teams,
+          we connect you to pre-screened professionals ready to deliver.
+        </p>
+
+        <div className="hero-pill-row">
+          <span>Corporate Teams</span>
+          <span>Trade Specialists</span>
+          <span>Remote Support</span>
+          <span>Domestic Professionals</span>
+        </div>
       </div>
-    </>
+
+    </section>
   );
 }

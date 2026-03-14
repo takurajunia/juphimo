@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import ServiceCategoryPageModern from './pages/ServiceCategoryPage';
+import HomeHero from './components/sections/Hero';
+import HomeServicesGallery from './components/sections/ServicesGallery';
 
 // --- Navbar Component ---
 function Navbar() {
@@ -13,31 +15,222 @@ function Navbar() {
     <>
       <style>{`
         /* --- Navbar Styles --- */
-        .nav-container { width: 100%; background-color: var(--darkblack, #0b0c0b); position: sticky; top: 0; z-index: 999; }
-        .navbar { display: grid; grid-template-columns: 0.2fr auto 1fr; align-items: center; height: 80px; width: 90%; max-width: 1720px; margin: 0 auto; }
-        #navbar-logo { justify-self: start; margin-left: 20px; cursor: pointer; max-height: 60px; width: auto; display: block; }
-        .nav-menu { display: flex; align-items: center; list-style: none; text-align: center; justify-self: end; gap: 2rem; margin: 0; padding: 0; }
-        .nav-links { color: #fff; text-decoration: none; transition: all 0.2s ease-out; cursor: pointer; }
-        .nav-links:hover { color: var(--lightlemon, #090446cc); }
-        .nav-links-btn { background-color: var(--blue, #007bff); padding: 8px 20px; border-radius: 4px; transition: all 0.3s ease-out; color: #fff; text-decoration: none; }
-        .nav-links-btn:hover { background-color: transparent; border: solid 1px var(--blue, #007bff); color: var(--white, #fff); }
+        .nav-container {
+          width: 100%;
+          position: sticky;
+          top: 0;
+          z-index: 999;
+          background: rgba(11, 12, 11, 0.94);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+          backdrop-filter: blur(10px);
+        }
+
+        .navbar {
+          display: flex;
+          align-items: center;
+          min-height: 84px;
+          width: min(94%, 1320px);
+          margin: 0 auto;
+          gap: 1.8rem;
+          position: relative;
+        }
+
+        .navbar > a {
+          display: inline-flex;
+          align-items: center;
+          flex-shrink: 0;
+        }
+
+        #navbar-logo {
+          cursor: pointer;
+          height: 58px;
+          width: auto;
+          display: block;
+        }
+
+        .nav-menu {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          list-style: none;
+          margin: 0 0 0 auto;
+          padding: 0;
+          gap: clamp(0.75rem, 1.6vw, 1.35rem);
+          white-space: nowrap;
+        }
+
+        .nav-menu > li {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+
+        .nav-links {
+          color: #fff;
+          text-decoration: none;
+          transition: color 0.2s ease-out;
+          cursor: pointer;
+          font-size: 0.94rem;
+          font-weight: 600;
+          padding: 0.35rem 0.15rem;
+          position: relative;
+        }
+
+        .nav-links::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -6px;
+          height: 2px;
+          background: var(--blue, #007bff);
+          transform: scaleX(0);
+          transform-origin: center;
+          transition: transform 0.25s ease;
+        }
+
+        .nav-links:hover {
+          color: #d8ebff;
+        }
+
+        .nav-links:hover::after {
+          transform: scaleX(1);
+        }
         
         /* --- Dropdown Styles --- */
-        .nav-item-dropdown { position: relative; cursor: pointer; }
-        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background-color: var(--darkblack, #0b0c0b); list-style: none; min-width: 180px; padding: 0.5rem 0; border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); display: flex; flex-direction: column; text-align: center; }
-        .dropdown-link { color: var(--white, #fff); padding: 12px 20px; display: block; transition: background 0.2s; font-size: 0.95rem; text-decoration: none; }
-        .dropdown-link:hover { background-color: var(--blue, #007bff); }
+        .nav-item-dropdown {
+          position: relative;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .nav-item-dropdown::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: -14px;
+          right: -14px;
+          height: 14px;
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 100%;
+          margin-top: 0.35rem;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: #101313;
+          list-style: none;
+          min-width: 210px;
+          padding: 0.45rem;
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38);
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+          z-index: 20;
+        }
+
+        .dropdown-link {
+          color: var(--white, #fff);
+          padding: 0.7rem 0.8rem;
+          display: block;
+          transition: background 0.2s;
+          font-size: 0.92rem;
+          text-decoration: none;
+          border-radius: 8px;
+        }
+
+        .dropdown-link:hover {
+          background-color: rgba(0, 123, 255, 0.2);
+        }
         
         /* --- Mobile Menu Toggle --- */
-        .menu-toggle { display: none; }
-        .menu-toggle .bar { width: 25px; height: 3px; margin: 5px auto; transition: all 0.3s ease-in-out; background: var(--white, #fff); display: block; }
+        .menu-toggle {
+          display: none;
+        }
+
+        .menu-toggle .bar {
+          width: 25px;
+          height: 3px;
+          margin: 5px auto;
+          transition: all 0.3s ease-in-out;
+          background: var(--white, #fff);
+          display: block;
+          border-radius: 4px;
+        }
         
         /* --- Mobile Responsive --- */
-        @media screen and (max-width: 768px) {
-            .nav-menu { flex-direction: column; background: var(--darkblack, #0b0c0b); margin: 0; width: 100%; position: absolute; top: 80px; left: -100%; opacity: 0; transition: all 0.5s ease; padding: 2rem 0; gap: 1.5rem; }
-            .nav-menu.active { left: 0; opacity: 1; z-index: 99; }
-            .dropdown-menu { position: relative; background-color: rgba(255, 255, 255, 0.05); box-shadow: none; width: 100%; transform: none; left: 0; margin-top: 10px; }
-            .menu-toggle { display: block; cursor: pointer; position: absolute; top: 25px; right: 5%; }
+        @media screen and (max-width: 900px) {
+            .navbar {
+              min-height: 78px;
+              width: min(94%, 1320px);
+            }
+
+            .menu-toggle {
+              display: block;
+              cursor: pointer;
+              margin-left: auto;
+            }
+
+            .nav-menu {
+              flex-direction: column;
+              align-items: stretch;
+              margin-left: 0;
+              gap: 0.3rem;
+              position: absolute;
+              top: 100%;
+              left: 0;
+              right: 0;
+              max-width: none;
+              background: #0b0c0b;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+              padding: 1rem 5% 1.4rem;
+              opacity: 0;
+              transform: translateY(-8px);
+              pointer-events: none;
+              transition: all 0.35s ease;
+              z-index: 99;
+            }
+
+            .nav-menu.active {
+              opacity: 1;
+              transform: translateY(0);
+              pointer-events: auto;
+            }
+
+            .nav-menu > li {
+              justify-content: flex-start;
+            }
+
+            .nav-links {
+              display: block;
+              width: 100%;
+              padding: 0.82rem 0.2rem;
+            }
+
+            .nav-links::after {
+              left: 0;
+              right: auto;
+              width: 60px;
+            }
+
+            .dropdown-menu {
+              position: static;
+              transform: none;
+              left: auto;
+              min-width: 0;
+              width: 100%;
+              margin-top: 0.35rem;
+              box-shadow: none;
+              background-color: rgba(255, 255, 255, 0.04);
+            }
+
+            .nav-item-dropdown::after {
+              display: none;
+            }
+
             .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
             .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -92,100 +285,12 @@ function Navbar() {
 
 // --- Hero Component ---
 function Hero() {
-  return (
-    <>
-      <style>{`
-        /* Hero image container – makes the image full width */
-        .hero-image-container {
-            width: 100%;
-            line-height: 0; /* removes extra space below image */
-        }
-        
-        .hero-image {
-            width: 100%;
-            height: auto;    /* maintains aspect ratio */
-            display: block;  /* removes inline gap */
-        }
-      `}</style>
-      <div className="hero-image-container">
-        <img 
-          src="/images/bholato.jpeg" 
-          alt="Juphimo Consultancy Staff" 
-          className="hero-image" 
-        />
-      </div>
-    </>
-  );
+  return <HomeHero />;
 }
 
 // --- Services Gallery Component ---
 function ServicesGallery() {
-  const galleryItems = [
-    { title: "Care givers", img: "/images/caregiver (1).jpg", alt: "care giving" },
-    { title: "Cleaners", img: "/images/cleaners.jpg", alt: "cleaning" },
-    { title: "Dog groomers", img: "/images/dog groomer.jpeg", alt: "dog grooming" },
-    { title: "Waiters & waitresses", img: "/images/waitress.jpg", alt: "waiters" },
-    { title: "Chefs", img: "/images/chef.jpg", alt: "chefs" },
-    { title: "Child minders", img: "/images/childnanny.jpg", alt: "child minders" },
-    { title: "Shop Assistant", img: "/images/shopassistant.jpg", alt: "shop assistant" }
-  ];
-
-  return (
-    <>
-      <style>{`
-        /* --- Services Gallery Styles --- */
-        .services-section { background-color: var(--blue, #007bff); width: 100%; min-height: 100vh; padding-bottom: 8rem; }
-        .services-heading { color: var(--white, #fff); text-align: center; margin-bottom: 2rem; padding-top: 3rem; padding-left: 1rem; padding-right: 1rem; }
-        .services { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; max-width: 1200px; margin: 0 auto; transform: translateY(80px); }
-        .services-cell { flex: 0 1 250px; max-width: 250px; height: 275px; margin: 10px; position: relative; text-align: center; z-index: 1; box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.8); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); cursor: pointer; overflow: hidden; }
-        .services-cell_img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 1; }
-        .services-cell_text { position: relative; height: 100%; width: 80%; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; text-transform: uppercase; color: var(--white, #fff); font-weight: 700; font-size: 1rem; text-shadow: 2px 2px 2px var(--darkblack, #0b0c0b); z-index: 2; transition: opacity 350ms; }
-        .services-cell::before { content: ''; position: absolute; top: -50%; left: -50%; width: 350px; height: 70px; background: var(--white, #fff); opacity: 0.4; transform: rotate(45deg); transition: transform 1.5s; z-index: 3; }
-        .services-cell:hover::before { transform: translate(100px, 400%) rotate(45deg); transition: transform 0.8s; }
-        .services-cell:hover { transform: scale(1.1); z-index: 99; transition: all 0.3s ease-in-out; }
-        
-        /* ========== RESPONSIVE GALLERY ========== */
-        @media screen and (min-width: 550px) and (max-width: 825px) {
-          .services-cell { margin: 5px; }
-          .services-cell:nth-child(3n) { margin-left: calc(50% - 125px); margin-right: calc(50% - 125px); }
-          .services-cell:nth-child(n+3):nth-child(-n+7) { position: relative; }
-          .services-cell:nth-child(3), .services-cell:nth-child(4), .services-cell:nth-child(5) { top: -70px; }
-          .services-cell:nth-child(6) { top: -140px; }
-          .services-cell:nth-child(7) { top: -140px; margin-right: 250px; }
-        }
-        @media screen and (min-width: 825px) and (max-width: 1100px) {
-          .services-cell { margin: 5px; }
-          .services-cell:nth-child(n+4):nth-child(-n+7) { position: relative; }
-          .services-cell:nth-child(4) { top: -70px; margin-left: calc(50% - 275px); }
-          .services-cell:nth-child(5) { top: -70px; margin-right: calc(50% - 275px); }
-          .services-cell:nth-child(6) { top: -140px; margin-left: calc(50% - 530px); }
-          .services-cell:nth-child(7) { top: -140px; margin-right: calc(50% - 275px); }
-        }
-        @media screen and (min-width: 1100px) {
-          .services-cell:nth-child(n + 5) { position: relative; top: -70px; }
-        }
-        @media screen and (max-width: 550px) {
-          .services { transform: translateY(40px); }
-          .services-cell { flex: 0 1 200px; max-width: 200px; height: 220px; margin: 30px 15px; }
-          .services-cell_text { font-size: 0.85rem; }
-        }
-      `}</style>
-      <div className="services-section">
-        <div className="services-heading">
-          <h1>Are you looking for someone reliable and with experience to get all your work done? Juphimo Consultancy has all the workers you need!!! Services on offer below.</h1>
-        </div>
-
-        <div className="services">
-          {galleryItems.map((item, index) => (
-            <div className="services-cell" key={index}>
-              <img src={item.img} alt={item.alt} className="services-cell_img" />
-              <div className="services-cell_text">{item.title}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
+  return <HomeServicesGallery />;
 }
 
 // --- About Section Component ---
@@ -218,72 +323,6 @@ function AboutSection() {
           </div>
         </div>
       </section>
-    </>
-  );
-}
-
-// --- Service Category Page Component (Legacy fallback) ---
-const categoryData: Record<string, { desc: string, features: string[] }> = {
-  'Blue-Collar': {
-    desc: "Skip the lengthy hiring process and get reliable, pre-screened blue-collar talent delivered to your worksite faster, saving you time and money while ensuring the job gets done right.",
-    features: ["Electricians", "Plumbers", "Welders", "Truck Drivers", "Carpenters", "Industrial Machinery Mechanics", "Power Line Installers", "Quantity Surveyors", "Mechanical engineers", "Solar technician", "Builders", "And more..."]
-  },
-  'Domestic': {
-    desc: "Skip the lengthy hiring process and get reliable, pre-screened domestic work talent delivered to your home faster, saving you time and giving you peace of mind.",
-    features: ["Housekeepers", "House helpers", "Caretakers", "Nanny / Child minders", "Elderly Care givers", "Private Chefs", "Kitchen Assistants", "Personal Assistants", "Gardener / Yard Workers", "Chauffeur / Drivers", "After school care services", "And more..."]
-  },
-  'White-Collar': {
-    desc: "Skip the lengthy hiring process and get reliable, pre-screened white-collar talent delivered to your office faster, saving you time and money while ensuring the job gets done right.",
-    features: ["Accountants", "Architects", "Attorneys", "Economists", "Doctors", "Social workers", "Teachers", "Database Administrators", "Software Developers", "Financial Managers", "Civil engineers", "And more..."]
-  },
-  'Remote': {
-    desc: "Access a global pool of remote talent perfectly suited to handle your digital, administrative, and customer support needs from anywhere in the world.",
-    features: ["Virtual Assistants", "Customer Service Reps", "Data Entry Clerks", "Online Tutors", "Social Media Managers", "Copywriters", "Graphic Designers", "And more..."]
-  }
-};
-
-function ServiceCategoryPageLegacy({ category }: { category: string }) {
-  const data = categoryData[category];
-
-  if (!data) return <div className="category-page"><h2>Category Not Found</h2></div>;
-
-  return (
-    <>
-      <style>{`
-        /* --- Service Category Cards Styles --- */
-        .category-page { padding: 100px 20px 60px; background-color: var(--darkblack, #0b0c0b); min-height: 80vh; display: flex; flex-direction: column; align-items: center; }
-        .category-page h2 { color: var(--white, #fff); font-size: 2.5rem; margin-bottom: 3rem; text-align: center; }
-        .services__container { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; max-width: 1200px; width: 100%; }
-        .services__card { background-color: #d2d7dd; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); width: 350px; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .services__card:hover { background-color: #b1e2f5; transform: translateY(-5px); }
-        .services__card h3 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--darkblack, #0b0c0b); text-transform: capitalize; }
-        #small-desc { font-size: 1rem; color: #3b3939; padding: 8px 0px 20px; border-bottom: 1px solid #a8b0b8; margin-bottom: 20px; line-height: 1.5; }
-        .card-features p { font-weight: bold; color: #3b3939; margin-bottom: 10px; }
-        .card-features ul { list-style: none; padding: 0; text-align: left; }
-        .card-features ul li { font-size: 1rem; color: #3b3939; margin: 0.8rem 0; display: flex; align-items: center; }
-        .card-features ul li::before { content: "✓"; color: var(--blue, #007bff); font-weight: bold; margin-right: 10px; }
-      `}</style>
-      <div className="category-page">
-        <h2>{category} Services</h2>
-
-        <div className="services__container">
-          <div className="services__card">
-            <div className="card-content">
-              <h3>{category} Jobs</h3>
-              <p id="small-desc">{data.desc}</p>
-
-              <div className="card-features">
-                <p>Available Roles:</p>
-                <ul>
-                  {data.features.map((feature, index) => (
-                    <li key={index}>{feature}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }
@@ -427,10 +466,10 @@ function Footer() {
             <div className="footer-col">
               <h3 className="footer-title">Our Services</h3>
               <ul className="footer-links">
-                <li><a href="#domestic"><i className="fa-solid fa-chevron-right"></i> Child minders</a></li>
-                <li><a href="#domestic"><i className="fa-solid fa-chevron-right"></i> Care givers</a></li>
-                <li><a href="#blue-collar"><i className="fa-solid fa-chevron-right"></i> Gardeners</a></li>
-                <li><a href="#white-collar"><i className="fa-solid fa-chevron-right"></i> Shop assistant</a></li>
+                <li><a href="#domestic"><i className="fa-solid fa-chevron-right"></i> Domestic Services</a></li>
+                <li><a href="#remote"><i className="fa-solid fa-chevron-right"></i> Remote Services</a></li>
+                <li><a href="#white-collar"><i className="fa-solid fa-chevron-right"></i> Corporate Services</a></li>
+                <li><a href="#blue-collar"><i className="fa-solid fa-chevron-right"></i> Trade Services</a></li>
               </ul>
             </div>
 
@@ -444,7 +483,7 @@ function Footer() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2026 Juphimo Consultancy. All rights reserved. | Designed with <i className="fa-solid fa-heart"></i> by Rtech</p>
+            <p>&copy; 2026 Juphimo Consultancy. All rights reserved. | The Decade.</p>
           </div>
         </div>
       </footer>
@@ -462,6 +501,20 @@ function HomePage() {
   );
 }
 
+const pageRouteHashes = new Set([
+  '#home',
+  '#about',
+  '#contact',
+  '#white-collar',
+  '#blue-collar',
+  '#domestic',
+  '#remote'
+]);
+
+function scrollToTopOfPage() {
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+}
+
 // --- Main App Component ---
 export default function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#home');
@@ -475,6 +528,29 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleLocationChange);
   }, []);
 
+  useEffect(() => {
+    scrollToTopOfPage();
+  }, [currentPath]);
+
+  useEffect(() => {
+    const handlePageLinkClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const pageLink = target?.closest('a[href^="#"]') as HTMLAnchorElement | null;
+      if (!pageLink) return;
+
+      const href = pageLink.getAttribute('href');
+      if (!href || !pageRouteHashes.has(href)) return;
+
+      const currentHash = window.location.hash || '#home';
+      if (href === currentHash) {
+        scrollToTopOfPage();
+      }
+    };
+
+    document.addEventListener('click', handlePageLinkClick);
+    return () => document.removeEventListener('click', handlePageLinkClick);
+  }, []);
+
   const renderPage = () => {
     switch (currentPath) {
       case '#about':
@@ -484,11 +560,11 @@ export default function App() {
       case '#white-collar':
         return <ServiceCategoryPageModern category="White-Collar" />;
       case '#blue-collar':
-        return <ServiceCategoryPageLegacy category="Blue-Collar" />;
+        return <ServiceCategoryPageModern category="Blue-Collar" />;
       case '#domestic':
-        return <ServiceCategoryPageLegacy category="Domestic" />;
+        return <ServiceCategoryPageModern category="Domestic" />;
       case '#remote':
-        return <ServiceCategoryPageLegacy category="Remote" />;
+        return <ServiceCategoryPageModern category="Remote" />;
       case '#home':
       default:
         return <HomePage />;
