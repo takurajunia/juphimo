@@ -439,7 +439,11 @@
 
 @media screen and (max-width: 600px) {
     .hero-image {
-        height: clamp(500px, 80vh, 760px);
+        height: clamp(360px, 66vh, 560px);
+    }
+
+    .hero-overlay {
+        bottom: 1.1rem;
     }
 
     .services-section {
