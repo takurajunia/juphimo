@@ -268,8 +268,6 @@ function Navbar() {
 
           <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
             <li><a href="#home" className="nav-links" onClick={() => setIsMobileMenuOpen(false)}>Home</a></li>
-            <li><a href="#about" className="nav-links" onClick={() => setIsMobileMenuOpen(false)}>About Us</a></li>
-            
             <li 
               className="nav-item-dropdown" 
               onMouseEnter={() => setIsDropdownOpen(true)}
@@ -289,6 +287,8 @@ function Navbar() {
                 </ul>
               )}
             </li>
+
+            <li><a href="#about" className="nav-links" onClick={() => setIsMobileMenuOpen(false)}>About Us</a></li>
 
             <li><a href="#contact" className="nav-links" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</a></li>
           </ul>

@@ -51,8 +51,7 @@ export default function Navbar() {
         {/* Navigation Links */}
         <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
           <li><a href="#home" className="nav-links">Home</a></li>
-          <li><a href="#about" className="nav-links">About Us</a></li>
-          
+
           {/* Services Dropdown Item */}
           <li 
             className="nav-item-dropdown" 
@@ -74,6 +73,8 @@ export default function Navbar() {
               </ul>
             )}
           </li>
+
+          <li><a href="#about" className="nav-links">About Us</a></li>
 
           <li><a href="#contact" className="nav-links">Contact Us</a></li>
           <li><a href="#signup" className="nav-links nav-links-btn">Sign Up</a></li>
