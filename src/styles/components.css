@@ -426,28 +426,29 @@
     }
 
     .hero-image {
-        height: clamp(460px, 76vh, 760px);
+        height: clamp(400px, 64vh, 640px);
     }
 
     .hero-overlay {
         left: 1rem;
         right: 1rem;
-        bottom: clamp(0.2rem, 0.8vh, 0.7rem);
+        top: clamp(0.9rem, 2.4vh, 1.6rem);
+        bottom: auto;
         max-width: none;
     }
 }
 
 @media screen and (max-width: 600px) {
     .hero-image {
-        height: clamp(360px, 66vh, 560px);
+        height: clamp(320px, 56vh, 460px);
     }
 
     .hero-overlay {
-        bottom: 1.1rem;
+        top: 0.9rem;
     }
 
     .services-section {
-        padding-top: 1.7rem;
+        padding-top: 2.7rem;
     }
 
     .services-filter-row {
