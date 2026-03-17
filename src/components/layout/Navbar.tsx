@@ -19,8 +19,23 @@ export default function Navbar() {
     <div className="nav-container">
       <nav className="navbar">
         <a href="#home">
-  <img src="/logo.png" alt="Juphimo Consultancy Logo" id="navbar-logo" />
-</a>
+          <picture>
+            <source
+              type="image/webp"
+              srcSet="/logo-nav-120.webp 1x, /logo-nav-240.webp 2x"
+            />
+            <img
+              src="/logo-nav.png"
+              alt="Juphimo Consultancy Logo"
+              id="navbar-logo"
+              width={240}
+              height={240}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
+        </a>
         
         {/* Mobile Menu Icon */}
         <div 

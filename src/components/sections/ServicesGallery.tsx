@@ -135,8 +135,23 @@ const galleryItems: GalleryItem[] = [
   }
 ];
 
+function isLocalRasterImage(src: string) {
+  return /^\/images\/.+\.(jpe?g|png)$/i.test(src);
+}
+
+function toWebpPath(src: string) {
+  return src.replace(/\.(jpe?g|png)$/i, '.webp');
+}
+
 export default function ServicesGallery() {
   const [activeFilter, setActiveFilter] = useState<ServiceCategory | 'All'>('All');
+
+  const filteredCategorySummaries = useMemo(
+    () => (activeFilter === 'All'
+      ? categorySummaries
+      : categorySummaries.filter((summary) => summary.category === activeFilter)),
+    [activeFilter]
+  );
 
   const filteredItems = useMemo(
     () => (activeFilter === 'All'
@@ -170,7 +185,7 @@ export default function ServicesGallery() {
       </div>
 
       <div className="services-overview-grid">
-        {categorySummaries.map((summary) => (
+        {filteredCategorySummaries.map((summary) => (
           <article key={summary.category} className="services-overview-card">
             <p className="services-overview-label">{summary.category}</p>
             <a href={summary.href} className="services-overview-link">View More</a>
@@ -182,7 +197,28 @@ export default function ServicesGallery() {
       <div className="services">
         {filteredItems.map((item) => (
           <article className="services-cell" key={`${item.category}-${item.title}`}>
-            <img src={item.img} alt={item.alt} className="services-cell_img" />
+            {isLocalRasterImage(item.img) ? (
+              <picture>
+                <source srcSet={toWebpPath(item.img)} type="image/webp" />
+                <img
+                  src={item.img}
+                  alt={item.alt}
+                  className="services-cell_img"
+                  loading="lazy"
+                  fetchPriority="low"
+                  decoding="async"
+                />
+              </picture>
+            ) : (
+              <img
+                src={item.img}
+                alt={item.alt}
+                className="services-cell_img"
+                loading="lazy"
+                fetchPriority="low"
+                decoding="async"
+              />
+            )}
             <div className="services-cell_overlay" />
             <span className="services-cell_category">{item.category}</span>
             <div className="services-cell_text">{item.title}</div>

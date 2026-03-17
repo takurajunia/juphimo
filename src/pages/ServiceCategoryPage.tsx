@@ -494,6 +494,14 @@ const categoryData: Record<string, ServiceCategoryData> = {
   }
 };
 
+function isLocalRasterImage(src: string) {
+  return /^\/images\/.+\.(jpe?g|png)$/i.test(src);
+}
+
+function toWebpPath(src: string) {
+  return src.replace(/\.(jpe?g|png)$/i, '.webp');
+}
+
 export default function ServiceCategoryPage({ category }: { category: string }) {
   const data = categoryData[category];
 
@@ -526,7 +534,28 @@ export default function ServiceCategoryPage({ category }: { category: string }) 
 
           <div className="service-hero-visual">
             <div className="service-hero-image-frame">
-              <img src={data.heroImage} alt={`${category} services`} className="service-hero-image" />
+              {isLocalRasterImage(data.heroImage) ? (
+                <picture>
+                  <source srcSet={toWebpPath(data.heroImage)} type="image/webp" />
+                  <img
+                    src={data.heroImage}
+                    alt={`${category} services`}
+                    className="service-hero-image"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                  />
+                </picture>
+              ) : (
+                <img
+                  src={data.heroImage}
+                  alt={`${category} services`}
+                  className="service-hero-image"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+              )}
               <div className="service-hero-image-overlay"></div>
 
               <div className="service-hero-spotlight">
@@ -598,7 +627,28 @@ export default function ServiceCategoryPage({ category }: { category: string }) 
             {data.roles.map((role) => (
               <article className="feature-card" key={role.title}>
                 <div className="feature-image-wrapper">
-                  <img src={role.image} alt={role.title} className="feature-image" />
+                  {isLocalRasterImage(role.image) ? (
+                    <picture>
+                      <source srcSet={toWebpPath(role.image)} type="image/webp" />
+                      <img
+                        src={role.image}
+                        alt={role.title}
+                        className="feature-image"
+                        loading="lazy"
+                        fetchPriority="low"
+                        decoding="async"
+                      />
+                    </picture>
+                  ) : (
+                    <img
+                      src={role.image}
+                      alt={role.title}
+                      className="feature-image"
+                      loading="lazy"
+                      fetchPriority="low"
+                      decoding="async"
+                    />
+                  )}
                   <div className="feature-overlay"></div>
                   <span className="feature-badge">{role.badge}</span>
                 </div>

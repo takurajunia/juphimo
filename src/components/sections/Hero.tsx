@@ -3,11 +3,23 @@ import '../../styles/components.css';
 export default function Hero() {
   return (
     <section className="hero-image-container">
-      <img
-        src="/images/bholato.jpeg"
-        alt="Juphimo Consultancy staffing team"
-        className="hero-image"
-      />
+      <picture>
+        <source
+          type="image/webp"
+          srcSet="/images/bholato-768.webp 768w, /images/bholato-1280.webp 1280w, /images/bholato.webp 1472w"
+          sizes="100vw"
+        />
+        <img
+          src="/images/bholato.jpeg"
+          alt="Juphimo Consultancy staffing team"
+          className="hero-image"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          width={1472}
+          height={954}
+        />
+      </picture>
 
       <div className="hero-overlay">
         <p className="hero-kicker">Staffing Across Zimbabwe</p>
